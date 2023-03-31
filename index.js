@@ -22,15 +22,18 @@ document.addEventListener('click', function(e){
         handleStatChange(e.target.dataset.block, "block")
     }else if(e.target.dataset.turnover){
         handleStatChange(e.target.dataset.turnover, "turnover")
-    }else if(e.target.id === 'undo-stat-btn'){
+    }else if(e.target.id === 'reset-stats-btn'){
+        handleResetStats()
+    }else if(e.target.id === 'stat-undo-btn'){
         handleStatUndo()
     }
 })
 
 
 function handleAddPlayerBtnClick(){
+    const playerNameEl = document.getElementById("player-name")
     stats.push({
-        name: document.getElementById("player-name").value,
+        name: playerNameEl.value,
         FGM: 0,
         FGA: 0,
         TPM: 0,
@@ -43,6 +46,7 @@ function handleAddPlayerBtnClick(){
     })
     renderStatBtns()
     renderTable()
+    playerNameEl.value = ""
 }
 
 function handleStatChange(name, statChange){
@@ -52,33 +56,36 @@ function handleStatChange(name, statChange){
     
     switch(statChange) {
         case "twoPtMiss":
-            targetPlayerObj.FGA += 1
+            targetPlayerObj.FGA++
             break
         case "twoPtMake":
-            targetPlayerObj.FGA += 1
-            targetPlayerObj.FGM += 1
+            targetPlayerObj.FGA++
+            targetPlayerObj.FGM++
             break
         case "threePtMiss":
-            targetPlayerObj.TPA += 1
+            targetPlayerObj.TPA++
+            targetPlayerObj.FGA++
             break
         case "threePtMake":
-            targetPlayerObj.TPA += 1
-            targetPlayerObj.TPM += 1
+            targetPlayerObj.FGA++
+            targetPlayerObj.FGM++
+            targetPlayerObj.TPA++
+            targetPlayerObj.TPM++
             break
         case "rebound":
-            targetPlayerObj.REB += 1
+            targetPlayerObj.REB++
             break
         case "assist":
-            targetPlayerObj.AST += 1
+            targetPlayerObj.AST++
             break
         case "steal":
-            targetPlayerObj.STL += 1
+            targetPlayerObj.STL++
             break
         case "block":
-            targetPlayerObj.BLK += 1
+            targetPlayerObj.BLK++
             break
         case "turnover":
-            targetPlayerObj.TO += 1
+            targetPlayerObj.TO++
             break
     }
 
@@ -92,8 +99,66 @@ function handleStatChange(name, statChange){
     renderStatChangeList()
 }
 
+function handleResetStats(){
+    if(confirm("Are you sure you want to reset all stats?") == true){
+        stats.forEach(function(player){
+            player.FGA = 0
+            player.FGM = 0
+            player.TPA = 0
+            player.TPM = 0
+            player.REB = 0
+            player.AST = 0
+            player.STL = 0
+            player.BLK = 0
+            player.TO = 0
+        })
+        statChangeHistory = []
+        renderTable()
+        renderStatChangeList()
+    }
+}
+
 function handleStatUndo(){
-    
+    const lastChange = statChangeHistory.pop()
+    const statChange = lastChange.statChange
+    const targetPlayerObj = stats.filter(function(player){
+        return player.name === lastChange.name
+    })[0]
+    switch(statChange) {
+        case "twoPtMiss":
+            targetPlayerObj.FGA--
+            break
+        case "twoPtMake":
+            targetPlayerObj.FGA--
+            targetPlayerObj.FGM--
+            break
+        case "threePtMiss":
+            targetPlayerObj.TPA--
+            targetPlayerObj.FGA--
+            break
+        case "threePtMake":
+            targetPlayerObj.FGA--
+            targetPlayerObj.FGM--
+            targetPlayerObj.TPA--
+            targetPlayerObj.TPM--
+            break
+        case "rebound":
+            targetPlayerObj.REB--
+            break
+        case "assist":
+            targetPlayerObj.AST--
+            break
+        case "steal":
+            targetPlayerObj.STL--
+            break
+        case "block":
+            targetPlayerObj.BLK--
+            break
+        case "turnover":
+            targetPlayerObj.TO--
+            break
+    }
+
     renderTable()
     renderStatChangeList()
 }

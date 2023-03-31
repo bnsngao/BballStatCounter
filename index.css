@@ -9,10 +9,10 @@ body {
     margin-right: 5px;
 }
 
-#add-player-btn, #stat-undo-btn{
+#add-player-btn, #stat-undo-btn, #reset-stats-btn{
     display: grid;
     height: auto;
-    width: 300px;
+    width: 200px;
     margin: 5px auto;
 }
 
@@ -29,4 +29,8 @@ body {
 
 .player-stat-btns p, .player-stat-btns button {
     margin: 0px 5px;
+}
+
+#stat-change-container {
+    list-style-position: inside;
 }
