@@ -208,6 +208,7 @@ function getTableHTML(){
     <th>BLK</th>
     <th>TO</th>
     <th>PTS</th>
+    <th>TS%</th>
     </tr>
     `
     
@@ -218,16 +219,17 @@ function getTableHTML(){
             <td>${player.name}</td>
             <td>${player.FGM}</td>
             <td>${player.FGA}</td>
-            <td>${Math.round(((player.FGM*10000)/player.FGA))/100}</td>
+            <td>${Math.round(((player.FGM*10000)/player.FGA))/100}%</td>
             <td>${player.TPM}</td>
             <td>${player.TPA}</td>
-            <td>${Math.round(((player.TPM*10000)/player.TPA))/100}</td>
+            <td>${Math.round(((player.TPM*10000)/player.TPA))/100}%</td>
             <td>${player.REB}</td>
             <td>${player.AST}</td>
             <td>${player.STL}</td>
             <td>${player.BLK}</td>
             <td>${player.TO}</td>
-            <td>${(player.FGM*2)+player.TPM}
+            <td>${(player.FGM*2)+player.TPM}</td>
+            <td>${Math.round((((player.FGM*2)+player.TPM)*10000)/(2*player.FGA))/100}%</td>
             </tr>
             `
    })
