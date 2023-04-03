@@ -242,12 +242,15 @@ function renderTable(){
 
 function getStatChangeListHTML(){
     let statChangeHistoryHTML = ``
-    statChangeHistory.forEach(function(change){
+
+    for(let i = statChangeHistory.length - 1; i >= 0; i--){
+        const change = statChangeHistory[i]
         statChangeHistoryHTML +=
         `
             <li>${change.name}: ${change.statChange}</li>
         `
-    })
+    }
+
 
     return statChangeHistoryHTML
 }
